@@ -8,7 +8,7 @@ export function Introtome() {
       title: "My hobbies",
       content: (
         <div className="flex flex-col md:flex-row items-start gap-6">
-          <p className=" text-neutral-800 dark:text-neutral-200 text-s md:text-m font-normal w-full md:w-80 text-center md:text-left">
+          <p className=" pt-10 text-neutral-800 dark:text-neutral-200 text-m md:text-l font-normal w-full md:w-80 text-center md:text-left leading-relaxed">
             I used to play a variety of sports, including soccer, baseball, basketball, tennis etc... However, the sports that I enjoy the most are volleyball, skiing, water skiing, climbing, disc golf, and ultimate frisbee! I played volleyball for 7 years in Japan on my high school team and we used to go to Korea for international tournaments! I am currently on the Knox College Alley Rats and play ultimate frisbee!
           </p>
           <div className="grid grid-cols-2 gap-4 md:w-2/3">
