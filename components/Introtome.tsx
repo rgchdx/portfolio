@@ -89,8 +89,9 @@ export function Introtome() {
       title: "Food",
       content: (
         <div className="flex flex-col md:flex-row items-start gap-6">
-          <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal w-full md:w-80 text-center md:text-left">
-            Deployed 5 new components on Aceternity today
+          <p className="pt-10 text-neutral-800 dark:text-neutral-200 text-m md:text-l font-normal w-full md:w-80 text-center md:text-left leading-relaxed">
+            I love to cook! I used to work at two different restaurants in Japan and in the US! The first restaurant that I worked in was at Gunge Pizza in Sasayama Hyogo Japan. My boss was my dad's friend and I used to work in the kitchen, making pasta and salads and prepping for meals!
+            The second restaurant that I worked at was the Les Cheneaux Culinary School in Hessel Michigan! I worked breakfast shifts where I used to make breakfast sandwiches with eggs, bacon, and our secret sauce! I managed the breakfast kitchen and I was in charge of working all the other employees! I also did meal prep for the dinner team as well!
           </p>
           <div className="grid grid-cols-2 gap-4">
             <Image
