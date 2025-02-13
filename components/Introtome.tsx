@@ -48,9 +48,9 @@ export function Introtome() {
       title: "Music",
       content: (
         <div className="flex flex-col md:flex-row items-start gap-6">
-          <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal w-full md:w-80 text-center md:text-left">
-            I usually run out of copy, but when I see content this big, I try to
-            integrate lorem ipsum.
+          <p className="pt-10 text-neutral-800 dark:text-neutral-200 text-m md:text-l font-normal w-full md:w-80 text-center md:text-left leading-relaxed">
+            I love to play the guitar in my free time and I am currently learning how to play a new songs so that I can play and sing along with my firends! <br></br>
+            I listen to a lot of indie music and my current favorite artists are the Magic City Hippies, the Glass Animals, and Arctic Monkeys! Ghost on the mend by the Magic City Hippies have a special place in my heart!
           </p>
           <div className="grid grid-cols-2 gap-4 md:w-2/3">
             <Image
