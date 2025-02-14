@@ -39,3 +39,25 @@ function determineTable(userQuery) {
     
     return "general"; 
 }
+
+async function getResponse(userQuery) {
+    const tableName = determineTable(userQuery);
+    const data = await getSupabaseData(tableName);
+    if (!data) {
+        return "Sorry, I couldn't fetch the data.";
+    }
+
+    const formatData = JSON.stringify(data, null, 2);
+    try {
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        const prompt = `Based on the following database records, answer the query: "${userQuery}"\n\nData:\n${formattedData}`;
+        
+        const result = await model.generateContent(prompt);
+        const response = result.response.text();
+
+        return response;
+    } catch (error) {
+        console.error("Error generating AI response:", error);
+        return "I encountered an error while generating the response.";
+    }
+}
