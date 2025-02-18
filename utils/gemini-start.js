@@ -53,6 +53,7 @@ async function getResponse(userQuery) {
         const prompt = `Based on the following database records, answer the query: "${userQuery}"\n\nData:\n${formattedData}`;
         
         const result = await model.generateContent(prompt);
+        console.log(result.response.text());
         const response = result.response.text();
 
         return response;
