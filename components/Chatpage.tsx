@@ -1,29 +1,76 @@
-import React from 'react'
+"use client";
+
+import React, { useState } from "react";
+
+// Message object to store chat messages
+type Message = {
+  text: string;
+  sender: "ai" | "user";
+};
 
 const Chatpage = () => {
-  return (
-    <main>
-    <h1 className="text-xl font-bold mb-4">Chatbot</h1>
-    
-    <div className="w-full max-w-lg shadow-lg rounded-lg p-4 h-[500px] overflow-y-auto flex flex-col gap-2">
-        <div className="self-start bg-green-500 text-white rounded-lg p-3 max-w-[75%]">
-            ask me anything
-        </div>
-        <div className="self-end bg-blue-500 text-white rounded-lg p-3 max-w-[75%]">
-            what is your name
-        </div>
-        <div className="self-start bg-green-500 text-white rounded-lg p-3 max-w-[75%]">
-            I am chatbot
-        </div>
-    </div>
-    <form className="w-full max-w-lg flex mt-4  p-2 rounded-lg shadow-md">
-        <input type="text" placeholder="Ask me anything!" className="flex justify-between mt-2 flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-        <button type="submit" className="ml-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-            Send
-        </button>
-    </form>
-</main>
-  )
-}
+  // State to store the input value
+  const [newInputValue,setNewInputValue] = useState('');
+  
+  // State to store messages
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      text: "Sample message",
+      sender: "ai",
+    },
+    {
+      text: "Sample message",
+      sender: "user",
+    },
+  ]);
 
-export default Chatpage
+  const newMessage: React.FormEventHandler = async (e) => {
+    e.preventDefault(); //stopping any propagation of the event before
+    setNewInputValue(''); //so that they know that they registered it
+    const newMessages: Message[] = [...messages,  { //take whatever messages are there (...) and add a new message
+        text: newInputValue,
+        sender: "user",
+    }];
+    setMessages(newMessages); //updating the messages
+  }
+
+
+  return (
+    <main className="flex flex-col items-center justify-center p-6 w-full h-screen">
+      <h1 className="text-3xl font-bold mb-6">Chatbot</h1>
+
+      <div className="w-full max-w-4xl flex-grow shadow-lg rounded-lg p-6 h-[70vh] overflow-y-auto flex flex-col gap-4">
+        {messages.map((message, index) => (
+          <p
+            key={index}
+            className={`rounded-lg p-3 max-w-[75%] ${
+              message.sender === "ai"
+                ? "bg-green-600 text-white self-start"
+                : "bg-gray-200 text-black self-end"
+            }`}
+          >
+            {message.text}
+          </p>
+        ))}
+      </div>
+
+      <form className="flex w-full max-w-4xl justify-between mt-4" onSubmit={newMessage}>
+        <input
+          type="text"
+          placeholder="Ask me anything!"
+          value={newInputValue}
+          onChange={(e) => setNewInputValue(e.currentTarget.value)}
+          className="flex-grow p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+        />
+        <button
+          type="submit"
+          className="ml-4 bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition"
+        >
+          Send
+        </button>
+      </form>
+    </main>
+  );
+};
+
+export default Chatpage;
