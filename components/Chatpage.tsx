@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 
+const functionUrl = 'https.xxxxxxxxx.lambda-url.us-east-1.on.aws/'; // Replace with your actual function URL
+
 // Message object to store chat messages
 type Message = {
   text: string;
@@ -13,16 +15,7 @@ const Chatpage = () => {
   const [newInputValue,setNewInputValue] = useState('');
   
   // State to store messages
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      text: "Sample message",
-      sender: "ai",
-    },
-    {
-      text: "Sample message",
-      sender: "user",
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]); // Initialize with an empty array since chat is an array
 
   const newMessage: React.FormEventHandler = async (e) => {
     e.preventDefault(); //stopping any propagation of the event before
@@ -31,7 +24,15 @@ const Chatpage = () => {
         text: newInputValue,
         sender: "user",
     }];
-    setMessages(newMessages); //updating the messages
+    //we send the entire array of messages to the backend (to the ai)
+    const response = await fetch(functionUrl, { //fetch will make an http post request to the url
+        method: 'POST',
+        body: JSON.stringify({messages: newMessages})
+      }); 
+    setMessages([...newMessages,{
+        sender:'ai',
+        text: await response.text() //awaiting the response from the server
+    }]) //updating the messages
   }
 
 
