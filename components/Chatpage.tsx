@@ -1,77 +1,89 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const functionUrl = 'https.xxxxxxxxx.lambda-url.us-east-1.on.aws/'; // Replace with your actual function URL
+const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || ""; 
+//since the API key is being passed and the genAI const requires a type of 
+//string and not string||undefined, we will take the string if there is a string and "" if undefined
 
-// Message object to store chat messages
-type Message = {
-  text: string;
-  sender: "ai" | "user";
-};
+const ChatPage = () => {
+    
+    const [inputValue, setInputValue] = useState("");
+    const [messages,setMessages] = useState({setup:[],convos:[]});
+    const [loading, setLoading] = useState(false);
+    const chatEndRef = useRef<HTMLDivElement|null>(null);
 
-const Chatpage = () => {
-  // State to store the input value
-  const [newInputValue,setNewInputValue] = useState('');
-  
-  // State to store messages
-  const [messages, setMessages] = useState<Message[]>([]); // Initialize with an empty array since chat is an array
+    const genAI = new GoogleGenerativeAI(API_KEY);
 
-  const newMessage: React.FormEventHandler = async (e) => {
-    e.preventDefault(); //stopping any propagation of the event before
-    setNewInputValue(''); //so that they know that they registered it
-    const newMessages: Message[] = [...messages,  { //take whatever messages are there (...) and add a new message
-        text: newInputValue,
-        sender: "user",
-    }];
-    //we send the entire array of messages to the backend (to the ai)
-    const response = await fetch(functionUrl, { //fetch will make an http post request to the url
-        method: 'POST',
-        body: JSON.stringify({messages: newMessages})
-      }); 
-    setMessages([...newMessages,{
-        sender:'ai',
-        text: await response.text() //awaiting the response from the server
-    }]) //updating the messages
-  }
+    //scroll to the bottom when the message updates
+    useEffect(() => {
+        chatEndRef.current?.scrollIntoView({behavior: "smooth"});
+    }, [messages,loading]);
 
+    useEffect(() => {
+        const makeChatReady = async () => {
+            const userMessage = "Hey! I will call you Vex"
+        }
+    },[])
 
-  return (
-    <main className="flex flex-col items-center justify-center p-6 w-full h-screen">
-      <h1 className="text-3xl font-bold mb-6">Chatbot</h1>
+    return(
+        <div className="flex flex-col h-screen bg-black-100">
+            {/* picture and header */}
+            <div className="p-4 flex flex-col items-center ">
+                <img src="/images/vixer.png" alt="vixer" className="w-40 h-40 rounded-full"/>
+                <h1 className="mt-4 text-3xl md:text-3xl font-extrabold text-green-500 tracking-wide drop-shadow-lg">VIXER</h1>
+            </div>
 
-      <div className="w-full max-w-4xl flex-grow shadow-lg rounded-lg p-6 h-[70vh] overflow-y-auto flex flex-col gap-4">
-        {messages.map((message, index) => (
-          <p
-            key={index}
-            className={`rounded-lg p-3 max-w-[75%] ${
-              message.sender === "ai"
-                ? "bg-green-600 text-white self-start"
-                : "bg-gray-200 text-black self-end"
-            }`}
-          >
-            {message.text}
-          </p>
-        ))}
-      </div>
+            {/* chat messages */}
+            <main className="flex-1 overflow-y-auto p-6 space-y-4">
+                {messages.convos.map((msg, index) => (
+                    <div 
+                        key={index} 
+                        className={`max-w-3xl p-4 rounded-md break-words ${
+                        msg.type === 'user' 
+                        ? 'bg-white text-black self-end ml-auto' 
+                        : 'bg-green-500 text-white self-start'
+                        }`}
+                    >
+                        {msg.text} 
+                    </div>
+                ))}
+                {
+                    loading && (
+                    <div className="flex self-start my-4">
+                        <div className="p-4 bg-green-300 text-white slef-start rounded-md ">
+                            <div className="w-6 h-6 border-4 border-green-300 animate-spin border-dashed rouded-full">
 
-      <form className="flex w-full max-w-4xl justify-between mt-4" onSubmit={newMessage}>
-        <input
-          type="text"
-          placeholder="Ask me anything!"
-          value={newInputValue}
-          onChange={(e) => setNewInputValue(e.currentTarget.value)}
-          className="flex-grow p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-        />
-        <button
-          type="submit"
-          className="ml-4 bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition"
-        >
-          Send
-        </button>
-      </form>
-    </main>
-  );
-};
+                            </div>
+                        </div>
+                    </div>
+                )}
+                <div ref={chatEndRef}></div>
+            </main>
 
-export default Chatpage;
+            {/* input form */}
+            <footer className="bg-white border-t border-green-300 p-4 ">
+                <div className="flex space-x-2">
+                    <textarea
+                    value={inputValue}
+                    onChange={handleInputChange}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Ask me anything!"
+                    className="flex-1 p-3 border-green-500 rounded-md focus:outline-none focus:ring focus:ring-green-300 resize-none"
+                    rows={1}
+                    >
+                    </textarea>
+                    <button 
+                    onClick={getResponseForGivenPrompt}
+                    className="flex-shrink-0 p-3 bg-green-500 text-white rounded-md focus:outline-none focus:ring focus:ring-color-300 hover:bg-green-900"
+                    >
+                        {loading ? "..." : "Send"}
+                    </button>
+                </div>
+            </footer>
+        </div>
+    )
+}
+
+export default ChatPage;
