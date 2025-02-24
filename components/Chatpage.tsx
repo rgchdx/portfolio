@@ -2,6 +2,7 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { createClient } from "@supabase/supabase-js";
 
 const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || ""; 
 //since the API key is being passed and the genAI const requires a type of 
@@ -15,6 +16,11 @@ const ChatPage = () => {
     const chatEndRef = useRef<HTMLDivElement|null>(null);
 
     const genAI = new GoogleGenerativeAI(API_KEY);
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    
+    const supabase = createClient(supabaseUrl!,supabaseKey!);
+
 
     //scroll to the bottom when the message updates
     useEffect(() => {
@@ -23,9 +29,81 @@ const ChatPage = () => {
 
     useEffect(() => {
         const makeChatReady = async () => {
-            const userMessage = "Hey! I will call you Vex"
-        }
+            const userMessage = "Hey! I will call you Vixer and behave like a friendly friend of Richie. Use the information from the supabase dataset provided only and nothing outside that",
+            setMessages((prev) => ({
+                ...prev,
+                setup: [...prev.setup, {text: userMessage, type: "user"}]
+            }))
+            try{
+                const context = messages.setup.map((msg) => msg.text).join("\n") + "\n" + userMessage;
+                const model = genAI.getGenerativeModel({model:"gemini-2.0-flash"});
+                const result = await model.generateContent(context);
+                const botMessage = result.response.text();
+                setMessages((prev) => ({
+                    ...prev,
+                    setup: [...prev.setup, {text: botMessage, type: "bot"}]
+                }))
+            }catch(error){
+                console.log("Something went wrong: "+error);
+                setMessages((prev) => ({
+                    ...prev,
+                    setup: [...prev.setup, {text: "Something went wrong", type: "error"}]
+                }))
+            }finally{
+                setLoading(false);
+            }
+        };
+        makeChatReady();
     },[])
+
+    const handleInputChange = (e: { target: { value: React.SetStateAction<string>; }; }) => { //check this later
+        setInputValue(e.target.value);
+    }
+
+    const getResponseForGivenPrompt = async () => {
+        if (!inputValue.trim()) return;
+    
+        const userMessage = inputValue;
+        setMessages(prev => ({
+            ...prev,
+            convos: [...prev.convos, { text: userMessage, type: "user" }]
+        }));
+        setInputValue("");
+    
+        try {
+            setLoading(true);
+    
+            const context = [
+                ...messages.setup.map(msg => msg.text),
+                ...messages.convos.map(msg => msg.text),
+                userMessage
+            ].join("\n");
+    
+            const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+            const result = await model.generateContent(context);
+            const botMessage = result.response.text();
+    
+            setMessages(prev => ({
+                ...prev,
+                convos: [...prev.convos, { text: botMessage, type: "bot" }]
+            }));
+        } catch (error) {
+            console.error("Something went wrong:", error);
+            setMessages(prev => ({
+                ...prev,
+                setup: [...prev.setup, { text: "Something went wrong", type: "error" }]
+            }));
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleKeyDown = (e) => {
+        if(e.key === "Enter") {
+            e.preventDefault();
+            getResponseForGivenPrompt();
+        }
+    }
 
     return(
         <div className="flex flex-col h-screen bg-black-100">
