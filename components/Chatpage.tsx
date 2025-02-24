@@ -8,12 +8,21 @@ const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || "";
 //since the API key is being passed and the genAI const requires a type of 
 //string and not string||undefined, we will take the string if there is a string and "" if undefined
 
+type Message = {
+    text: string;
+    type: "user" | "bot" | "error";
+}
+type MessageState = {
+    setup: Message[];
+    convos: Message[];
+}
+
 const ChatPage = () => {
     
     const [inputValue, setInputValue] = useState("");
-    const [messages,setMessages] = useState({setup:[],convos:[]});
+    const [messages,setMessages] = useState<MessageState>({setup:[],convos:[]});
     const [loading, setLoading] = useState(false);
-    const chatEndRef = useRef<HTMLDivElement|null>(null);
+    const chatEndRef = useRef<HTMLDivElement>(null);
 
     const genAI = new GoogleGenerativeAI(API_KEY);
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -29,7 +38,7 @@ const ChatPage = () => {
 
     useEffect(() => {
         const makeChatReady = async () => {
-            const userMessage = "Hey! I will call you Vixer and behave like a friendly friend of Richie. Use the information from the supabase dataset provided only and nothing outside that",
+            const userMessage = "Hey! I will call you Vixer and behave like a friendly friend of Richie. Use the information from the supabase dataset provided only and nothing outside that"
             setMessages((prev) => ({
                 ...prev,
                 setup: [...prev.setup, {text: userMessage, type: "user"}]
@@ -98,7 +107,7 @@ const ChatPage = () => {
         }
     };
 
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: { key: string; preventDefault: () => void; }) => {
         if(e.key === "Enter") {
             e.preventDefault();
             getResponseForGivenPrompt();
