@@ -2,11 +2,15 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { supabase } from "@/utils/supabaseSetup";
 import { createClient } from "@supabase/supabase-js";
+
 
 const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || ""; 
 //since the API key is being passed and the genAI const requires a type of 
 //string and not string||undefined, we will take the string if there is a string and "" if undefined
+//const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+//const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 
 type Message = {
     text: string;
@@ -19,17 +23,48 @@ type MessageState = {
 
 const ChatPage = () => {
     
+    //state variables for the chat
     const [inputValue, setInputValue] = useState("");
     const [messages,setMessages] = useState<MessageState>({setup:[],convos:[]});
     const [loading, setLoading] = useState(false);
     const chatEndRef = useRef<HTMLDivElement>(null);
+    const [error, setError] = useState<string | null>(null);
 
+    // Initialize Google Generative AI client
     const genAI = new GoogleGenerativeAI(API_KEY);
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-    
-    const supabase = createClient(supabaseUrl!,supabaseKey!);
+    //const supabase = createClient(SUPABASE_URL, SUPABASE_KEY); // Initialize supabase client
 
+    // Initialization of the supabase client side
+    const [data,setData] = useState<any[]>([]);
+
+    console.log("supabase client initialized");
+
+    //create useeffect for each table??
+    useEffect(() => {
+        console.log("useEffect for supabase");
+        const fetchData = async () => {
+            console.log("Fetching data...");
+            try {
+                const { data, error } = await supabase.from("friends").select("*");
+                
+                if (error) {
+                    console.error("Supabase fetch error:", error);
+                    setError(error.message);
+                } else {
+                    setData(data);
+                    console.log("Fetched data:", data);
+                }
+            } catch (err) {
+                console.error("Unexpected error:", err);
+                setError("Unexpected error occurred");
+            } finally {
+                setLoading(false);
+            }
+        };
+    
+        fetchData();
+    }, []);
+    
 
     //scroll to the bottom when the message updates
     useEffect(() => {
@@ -37,8 +72,11 @@ const ChatPage = () => {
     }, [messages,loading]);
 
     useEffect(() => {
+        //if(data.length === 0) return; //not executing here
+        //fetchData();
         const makeChatReady = async () => {
-            const userMessage = "Hey! I will call you Vixer and behave like a friendly friend of Richie. Use the information from the supabase dataset provided only and nothing outside that"
+            //const introduction = data.map((item) => item.introduction).join("\n");
+            const userMessage = `Hey! I will call you Vixer and behave like a friendly friend of Richie. Use the information from the supabase dataset provided only and nothing outside that. The dataset is: ${data}`;
             setMessages((prev) => ({
                 ...prev,
                 setup: [...prev.setup, {text: userMessage, type: "user"}]
