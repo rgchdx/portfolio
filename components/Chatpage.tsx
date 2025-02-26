@@ -29,6 +29,7 @@ const ChatPage = () => {
     const [loading, setLoading] = useState(false);
     const chatEndRef = useRef<HTMLDivElement>(null);
     const [error, setError] = useState<string | null>(null);
+    const [formattedData, setFormattedData] = useState<string>("");
 
     // Initialize Google Generative AI client
     const genAI = new GoogleGenerativeAI(API_KEY);
@@ -41,19 +42,85 @@ const ChatPage = () => {
 
     //create useeffect for each table??
     useEffect(() => {
-        console.log("useEffect for supabase");
+        console.log("Fetching data from multiple tables...");
+    
         const fetchData = async () => {
-            console.log("Fetching data...");
             try {
-                const { data, error } = await supabase.from("sports").select("*");
-                
-                if (error) {
-                    console.error("Supabase fetch error:", error);
-                    setError(error.message);
-                } else {
-                    setData(data);
-                    console.log("Fetched data:", data);
+                // Fetch data from multiple tables simultaneously
+                const [
+                    { data: foodData, error: foodError },
+                    { data: friendsData, error: friendsError },
+                    { data: gamesData, error: gamesError },
+                    { data: generalData, error: generalError },
+                    { data: hobbiesData, error: hobbiesError },
+                    { data: musicData, error: musicError },
+                    { data: sportsData, error: sportsError }
+                ] = await Promise.all([
+                    supabase.from("food").select("*"),
+                    supabase.from("friends").select("*"),
+                    supabase.from("games").select("*"),
+                    supabase.from("general").select("*"),
+                    supabase.from("hobbies").select("*"),
+                    supabase.from("music").select("*"),
+                    supabase.from("sports").select("*"),
+                ]);
+    
+                // Handle errors
+                if (foodError || friendsError || gamesError || generalError || hobbiesError || musicError || sportsError) {
+                    console.error("Error fetching data:", {
+                        foodError, friendsError, gamesError, generalError, hobbiesError, musicError, sportsError
+                    });
+                    setError("Error fetching data from Supabase");
+                    return;
                 }
+    
+                // Ensure there's data
+                if (
+                    (!foodData || foodData.length === 0) &&
+                    (!friendsData || friendsData.length === 0) &&
+                    (!gamesData || gamesData.length === 0) &&
+                    (!generalData || generalData.length === 0) &&
+                    (!hobbiesData || hobbiesData.length === 0) &&
+                    (!musicData || musicData.length === 0) &&
+                    (!sportsData || sportsData.length === 0)
+                ) {
+                    console.warn("No data found in any Supabase table.");
+                    return;
+                }
+    
+                // Format each dataset
+                const formatSection = (data: any[], title: string, fields: string[]) => 
+                    data?.map(item => `${title}: ${fields.map(field => `${field}: ${item[field]}`).join(", ")}`).join("\n") || "";
+    
+                const formattedFood = formatSection(foodData, "Food", ["name", "level_of_liking", "food_from_where", "memo"]);
+                const formattedFriends = formatSection(friendsData, "Friend", ["name", "where_we_met","memo", "friend_group"]);
+                const formattedGames = formatSection(gamesData, "Game", ["years_played", "when_i_played", "memo"]);
+                const formattedGeneral = formatSection(generalData, "General", ["about", "memo"]);
+                const formattedHobbies = formatSection(hobbiesData, "Hobby", ["name", "memo"]);
+                const formattedMusic = formatSection(musicData, "Music", ["artist", "song", "genre","concerts","memo"]);
+                const formattedSports = formatSection(sportsData, "Sport", ["sports_name", "level_of_interest", "memo"]);
+                console.log("Formatted Food:", formattedFood);
+                console.log("Formatted Friends:", formattedFriends);
+                console.log("Formatted Games:", formattedGames);
+                console.log("Formatted General:", formattedGeneral);
+                console.log("Formatted Hobbies:", formattedHobbies);
+                console.log("Formatted Music:", formattedMusic);
+                console.log("Formatted Sports:", formattedSports);
+    
+                // Combine formatted data from all tables
+                const formattedString = [
+                    formattedFood,
+                    formattedFriends,
+                    formattedGames,
+                    formattedGeneral,
+                    formattedHobbies,
+                    formattedMusic,
+                    formattedSports
+                ].filter(Boolean).join("\n\n"); // Remove empty sections and add spacing
+    
+                console.log("Formatted Data:", formattedString);
+                setFormattedData(formattedString);
+    
             } catch (err) {
                 console.error("Unexpected error:", err);
                 setError("Unexpected error occurred");
@@ -72,40 +139,40 @@ const ChatPage = () => {
     }, [messages,loading]);
 
     useEffect(() => {
-        //if(data.length === 0) return; //not executing here
-        //fetchData();
+        if (!formattedData) return; // 🛑 Don't run AI setup if no formatted data
+    
         const makeChatReady = async () => {
-            //const introduction = data.map((item) => item.introduction).join("\n");
-            const formattedData = data
-                .map((item) => `Sport: ${item.sports_name}, Level: ${item.level_of_interest}, Memo: ${item.memo}`)
-                .join("\n");
-            console.log(formattedData);
-            const userMessage = `Hey! I will call you Vixer and behave like a friendly friend of Richie. Use the information from the supabase dataset provided only and nothing outside that. The dataset is: ${formattedData}`;
+            console.log("Formatted Data for AI:", formattedData); // Debugging
+    
+            const userMessage = `Hey! I will call you Vixer and behave like a friendly friend of Richie. Use the information from the Supabase dataset provided only and nothing outside that. The dataset is:\n\n${formattedData}`;
+    
             setMessages((prev) => ({
                 ...prev,
-                setup: [...prev.setup, {text: userMessage, type: "user"}]
-            }))
-            try{
-                const context = messages.setup.map((msg) => msg.text).join("\n") + "\n" + userMessage;
-                const model = genAI.getGenerativeModel({model:"gemini-2.0-flash"});
-                const result = await model.generateContent(context);
+                setup: [...prev.setup, { text: userMessage, type: "user" }]
+            }));
+    
+            try {
+                const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+                const result = await model.generateContent(userMessage);
                 const botMessage = result.response.text();
+    
                 setMessages((prev) => ({
                     ...prev,
-                    setup: [...prev.setup, {text: botMessage, type: "bot"}]
-                }))
-            }catch(error){
-                console.log("Something went wrong: "+error);
+                    setup: [...prev.setup, { text: botMessage, type: "bot" }]
+                }));
+            } catch (error) {
+                console.error("Something went wrong:", error);
                 setMessages((prev) => ({
                     ...prev,
-                    setup: [...prev.setup, {text: "Something went wrong", type: "error"}]
-                }))
-            }finally{
+                    setup: [...prev.setup, { text: "Something went wrong", type: "error" }]
+                }));
+            } finally {
                 setLoading(false);
             }
         };
+    
         makeChatReady();
-    },[])
+    }, [formattedData]);
 
     const handleInputChange = (e: { target: { value: React.SetStateAction<string>; }; }) => { //check this later
         setInputValue(e.target.value);
