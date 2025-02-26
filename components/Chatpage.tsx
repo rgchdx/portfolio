@@ -45,7 +45,7 @@ const ChatPage = () => {
         const fetchData = async () => {
             console.log("Fetching data...");
             try {
-                const { data, error } = await supabase.from("friends").select("*");
+                const { data, error } = await supabase.from("sports").select("*");
                 
                 if (error) {
                     console.error("Supabase fetch error:", error);
@@ -76,7 +76,11 @@ const ChatPage = () => {
         //fetchData();
         const makeChatReady = async () => {
             //const introduction = data.map((item) => item.introduction).join("\n");
-            const userMessage = `Hey! I will call you Vixer and behave like a friendly friend of Richie. Use the information from the supabase dataset provided only and nothing outside that. The dataset is: ${data}`;
+            const formattedData = data
+                .map((item) => `Sport: ${item.sports_name}, Level: ${item.level_of_interest}, Memo: ${item.memo}`)
+                .join("\n");
+            console.log(formattedData);
+            const userMessage = `Hey! I will call you Vixer and behave like a friendly friend of Richie. Use the information from the supabase dataset provided only and nothing outside that. The dataset is: ${formattedData}`;
             setMessages((prev) => ({
                 ...prev,
                 setup: [...prev.setup, {text: userMessage, type: "user"}]
