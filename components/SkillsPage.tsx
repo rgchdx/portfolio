@@ -1,5 +1,6 @@
 import React from 'react'
 import { FocusCards } from './ui/Focus-Cards'
+import { InfiniteMovingCards } from './ui/Infinite-Moving-Cards'
 
 const SkillsPage = () => {
   const cards = [
@@ -24,8 +25,24 @@ const SkillsPage = () => {
       src: '/images/skills/mongodb.png',
     },
   ]
+
+  const testimonials = [
+    "/images/javaicon.png",
+    "/images/javascripticon.png",
+    "/images/reacticon.png"
+  ];
+
   return (
-    <FocusCards cards={cards} />
+    <div>
+        <div className="h-[40rem] rounded-md flex flex-col antialiased bg-white dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden">
+        <InfiniteMovingCards
+            images={testimonials}
+            direction="right"
+            speed="slow"
+        />
+        </div>
+        <FocusCards cards={cards} />
+    </div>
   )
 }
 
