@@ -10,7 +10,7 @@ export const InfiniteMovingCards = ({
   pauseOnHover = true,
   className,
 }: {
-  images: string[]; // Array of image URLs
+  images: { src: string; name: string; proficiency: number }[];
   direction?: "left" | "right";
   speed?: "fast" | "normal" | "slow";
   pauseOnHover?: boolean;
@@ -22,17 +22,20 @@ export const InfiniteMovingCards = ({
   useEffect(() => {
     addAnimation();
   }, []);
+
   const [start, setStart] = useState(false);
 
   function addAnimation() {
     if (containerRef.current && scrollerRef.current) {
       const scrollerContent = Array.from(scrollerRef.current.children);
+
       scrollerContent.forEach((item) => {
         const duplicatedItem = item.cloneNode(true);
         if (scrollerRef.current) {
           scrollerRef.current.appendChild(duplicatedItem);
         }
       });
+
       getDirection();
       getSpeed();
       setStart(true);
@@ -71,12 +74,23 @@ export const InfiniteMovingCards = ({
           pauseOnHover && "hover:[animation-play-state:paused]"
         )}
       >
-        {images.map((src, idx) => (
+        {images.map((item, idx) => (
           <li
-            className="w-[350px] max-w-full flex-shrink-0 overflow-hidden rounded-2xl border border-slate-700"
             key={idx}
+            className="w-[200px] h-[200px] max-w-full relative rounded-lg flex-shrink-0 border border-slate-700 overflow-hidden md:w-[150px] md:h-[150px] group flex items-center justify-center"
           >
-            <img src={src} alt={`Image ${idx}`} className="w-full h-full object-cover rounded-2xl" />
+            <img
+              src={item.src}
+              alt={item.name}
+              className="w-full h-full object-contain p-4 transition duration-300 group-hover:brightness-50 group-hover:blur-sm"
+            />
+            <div className="absolute inset-0 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <span className="text-white text-sm font-semibold">{item.name}</span>
+              <span className="text-white text-xs mt-1">Proficiency Level</span>
+              <div className="w-3/4 bg-gray-600 h-2 mt-1 rounded-full overflow-hidden">
+                <div className="bg-green-500 h-full" style={{ width: `${item.proficiency}%` }}></div>
+              </div>
+            </div>
           </li>
         ))}
       </ul>
@@ -84,4 +98,3 @@ export const InfiniteMovingCards = ({
   );
 };
 
-export default InfiniteMovingCards;

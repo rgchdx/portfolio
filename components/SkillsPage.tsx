@@ -27,18 +27,100 @@ const SkillsPage = () => {
   ]
 
   const testimonials = [
-    "/images/javaicon.png",
-    "/images/javascripticon.png",
-    "/images/reacticon.png"
-  ];
+  {
+    src: '/images/javaicon.png',
+    name: 'Java',
+    proficiency: 90,
+  },
+  {
+    src: '/images/javascripticon.png',
+    name: 'JavaScript',
+    proficiency: 85,
+  },
+  {
+    src: '/images/typescripticon.png',
+    name: 'TypeScript',
+    proficiency: 85
+  },
+  {
+    src: 'images/pythonicon.png',
+    name: 'Python',
+    proficiency: 85
+  },
+  {
+    src: '/images/kotlinicon.png',
+    name: 'Kotlin',
+    proficiency: 75
+  },
+  {
+    src: '/images/cicon.png',
+    name: 'C',
+    proficiency: 70
+  },
+  {
+    src: 'images/cplusicon.png',
+    name: 'C++',
+    proficiency: 70
+  },
+  {
+    src: '/images/htmlicon.png',
+    name: 'HTML',
+    proficiency: 85
+  },
+  {
+    src: '/images/cssicon.png',
+    name: 'CSS',
+    proficiency: 75
+  },
+  {
+    src: 'images/ricon.jpg',
+    name: 'R',
+    proficiency: 70
+  },
+  {
+    src: 'images/sqlicon.png',
+    name: 'SQL',
+    proficiency: 65
+  },
+  {
+    src: '/images/goicon.png',
+    name: 'Golang',
+    proficiency: 65
+  },
+  {
+    src: '/images/nexticon.png',
+    name: 'Next.js',
+    proficiency: 85
+  },
+  {
+    src: '/images/prologicon.png',
+    name: 'Prolog',
+    proficiency: 75
+  },
+  {
+    src: '/images/firebaseicon.png',
+    name: 'Firebase',
+    proficiency: 75
+  },
+  {
+    src: '/images/supabaseicon.png',
+    name: 'Supabase',
+    proficiency: 75
+  },
+  {
+    src: '/images/reacticon.png',
+    name: 'React',
+    proficiency: 70
+  }
+]
 
   return (
     <div>
-        <div className="h-[40rem] rounded-md flex flex-col antialiased bg-white dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden">
+        <div className="h-[40rem] rounded-md flex flex-col antialiased bg-black-100 items-center justify-center relative overflow-hidden">
         <InfiniteMovingCards
             images={testimonials}
             direction="right"
-            speed="slow"
+            speed="normal"
         />
         </div>
         <FocusCards cards={cards} />
