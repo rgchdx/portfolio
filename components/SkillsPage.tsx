@@ -5,24 +5,24 @@ import { InfiniteMovingCards } from './ui/Infinite-Moving-Cards'
 const SkillsPage = () => {
   const cards = [
     {
-      title: 'Python',
+      title: 'Leadership',
       src: '/images/skills/python.png',
+      description: 'Lead teams through Sony application development and other projects. Outside of this field, I lead a team of 10+ people from age 12-60 at Les-Cheneaux Culinary School for breakfast shifts.'
     },
     {
-      title: 'JavaScript',
+      title: 'Collaboration',
       src: '/images/skills/javascript.png',
+      description: 'Worked with teams at Sony, at Aquincum Institute of Technology and at chllege through multiple projects.'
     },
     {
-      title: 'React',
+      title: 'Presentation',
       src: '/images/skills/react.png',
+      description: 'Presented projects to teams at Sony, at Kwanseigakuin University and was recognized by a large body of professionals'
     },
     {
-      title: 'Node.js',
+      title: 'Design',
       src: '/images/skills/nodejs.png',
-    },
-    {
-      title: 'MongoDB',
-      src: '/images/skills/mongodb.png',
+      description: 'Designed application ideas at Aquincum Institute of Technology, Sony and at Kwansegakuin University for projectss'
     },
   ]
 
