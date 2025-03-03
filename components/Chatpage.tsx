@@ -12,10 +12,12 @@ const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || "";
 //const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 //const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 
+//Creating message type here 
 type Message = {
     text: string;
     type: "user" | "bot" | "error";
 }
+//Creating the states for the messages
 type MessageState = {
     setup: Message[];
     convos: Message[];
@@ -27,6 +29,7 @@ const ChatPage = () => {
     const [inputValue, setInputValue] = useState("");
     const [messages,setMessages] = useState<MessageState>({setup:[],convos:[]});
     const [loading, setLoading] = useState(false);
+    //For scrolling
     const chatEndRef = useRef<HTMLDivElement>(null);
     const [error, setError] = useState<string | null>(null);
     const [formattedData, setFormattedData] = useState<string>("");
@@ -38,12 +41,13 @@ const ChatPage = () => {
     // Initialization of the supabase client side
     const [data,setData] = useState<any[]>([]);
 
-    console.log("supabase client initialized");
+    //console.log("supabase client initialized");
 
     //create useeffect for each table??
     useEffect(() => {
-        console.log("Fetching data from multiple tables...");
+        //console.log("Fetching data from multiple tables...");
     
+        //fetching from each of the different tables in supabase
         const fetchData = async () => {
             try {
                 // Fetch data from multiple tables simultaneously
@@ -138,24 +142,29 @@ const ChatPage = () => {
         chatEndRef.current?.scrollIntoView({behavior: "smooth"});
     }, [messages,loading]);
 
+    //initial setup of the AI when we get the formatted data
     useEffect(() => {
-        if (!formattedData) return; // 🛑 Don't run AI setup if no formatted data
+        if (!formattedData) return; //Don't run AI setup if no formatted data
     
         const makeChatReady = async () => {
             console.log("Formatted Data for AI:", formattedData); // Debugging
     
+            //prompt setting here
             const userMessage = `Hey! I will call you Vixer and behave like a friendly friend of Richie. Use the information from the Supabase dataset provided only and nothing outside that. The dataset is:\n\n${formattedData}. The people who will be asking you questions will be asking are people who are not familiar with Richie. So please be friendly and helpful to them. Please answer the questions in a friendly manner and be as helpful as possible. When getting the data from the dataset, do not use * to indicate special names or fields but fix them into a normal conversational format.`;
     
+            //state update function provided by the useState hook. Adds to the array of userMessages to keep track
             setMessages((prev) => ({
                 ...prev,
                 setup: [...prev.setup, { text: userMessage, type: "user" }]
             }));
     
             try {
+                //initialization of the AI model and generating content
                 const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
                 const result = await model.generateContent(userMessage);
                 const botMessage = result.response.text();
     
+                //updating and adding to the array of botMessages to keep track
                 setMessages((prev) => ({
                     ...prev,
                     setup: [...prev.setup, { text: botMessage, type: "bot" }]
@@ -171,26 +180,34 @@ const ChatPage = () => {
             }
         };
     
-        makeChatReady();
-    }, [formattedData]);
+        makeChatReady(); //calling the async function
+    }, [formattedData]); //dependency array and when this is null, will not run
 
-    const handleInputChange = (e: { target: { value: React.SetStateAction<string>; }; }) => { //check this later
+    //function to handle the input change
+    //e is the event object that is passed in when the user types
+    const handleInputChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
         setInputValue(e.target.value);
     }
 
+    //taking in the input value and getting the response from the AI
     const getResponseForGivenPrompt = async () => {
+        //if there is no input value, return
         if (!inputValue.trim()) return;
     
         const userMessage = inputValue;
+        //add it to the array again
         setMessages(prev => ({
             ...prev,
             convos: [...prev.convos, { text: userMessage, type: "user" }]
         }));
+        //reset the input value to the default
         setInputValue("");
     
         try {
+            //while operating, set loading to true
             setLoading(true);
     
+            //creating a single string context by concatenating the text of messages from two arrays, setup and convos
             const context = [
                 ...messages.setup.map(msg => msg.text),
                 ...messages.convos.map(msg => msg.text),
@@ -216,6 +233,7 @@ const ChatPage = () => {
         }
     };
 
+    //sending in the response and calling getResponseForGivenPrompt
     const handleKeyDown = (e: { key: string; preventDefault: () => void; }) => {
         if(e.key === "Enter") {
             e.preventDefault();
