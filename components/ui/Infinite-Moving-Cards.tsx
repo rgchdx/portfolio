@@ -66,6 +66,7 @@ export const InfiniteMovingCards = ({
         className
       )}
     >
+      <h1 className="text-3xl font-bold text-green-500 text-center my-6">Technical skills</h1>
       <ul
         ref={scrollerRef}
         className={cn(

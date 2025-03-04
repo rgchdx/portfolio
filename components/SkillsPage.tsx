@@ -6,22 +6,22 @@ const SkillsPage = () => {
   const cards = [
     {
       title: 'Leadership',
-      src: '/images/skills/python.png',
+      src: '/images/leadershipicon.png',
       description: 'Lead teams through Sony application development and other projects. Outside of this field, I lead a team of 10+ people from age 12-60 at Les-Cheneaux Culinary School for breakfast shifts.'
     },
     {
       title: 'Collaboration',
-      src: '/images/skills/javascript.png',
+      src: '/images/collaborationicon.png',
       description: 'Worked with teams at Sony, at Aquincum Institute of Technology and at chllege through multiple projects.'
     },
     {
       title: 'Presentation',
-      src: '/images/skills/react.png',
+      src: '/images/presentationicon.png',
       description: 'Presented projects to teams at Sony, at Kwanseigakuin University and was recognized by a large body of professionals'
     },
     {
       title: 'Design',
-      src: '/images/skills/nodejs.png',
+      src: '/images/designicon.png',
       description: 'Designed application ideas at Aquincum Institute of Technology, Sony and at Kwansegakuin University for projectss'
     },
   ]
@@ -115,15 +115,16 @@ const SkillsPage = () => {
 ]
 
   return (
-    <div>
-        <div className="h-[40rem] rounded-md flex flex-col antialiased bg-black-100 items-center justify-center relative overflow-hidden">
+    <div className='mb-10'>
+      <div className="h-[40rem] rounded-md flex flex-col antialiased bg-black-100 items-center justify-center relative overflow-hidden">
         <InfiniteMovingCards
-            images={testimonials}
-            direction="right"
-            speed="normal"
+          images={testimonials}
+          direction="right"
+          speed="normal"
         />
-        </div>
-        <FocusCards cards={cards} />
+      </div>
+      <h2 className='text-3xl font-bold text-green-500 text-center my-6'>Soft Skills</h2>
+      <FocusCards cards={cards} />
     </div>
   )
 }
