@@ -203,91 +203,70 @@ export const CloseIcon = () => {
 
 const cards = [
   {
-    description: "Lana Del Rey",
-    title: "Summertime Sadness",
-    src: "",
+    description: "Personal Chatbot",
+    title: "Vixer",
+    src: "/images/vixer.png",
     ctaText: "Visit",
-    ctaLink: "",
+    ctaLink: "/Chatbot",
     content: () => {
       return (
         <p>
-          Lana Del Rey, an iconic American singer-songwriter, is celebrated for
-          her melancholic and cinematic music style. Born Elizabeth Woolridge
-          Grant in New York City, she has captivated audiences worldwide with
-          her haunting voice and introspective lyrics. <br /> <br /> Her songs
-          often explore themes of tragic romance, glamour, and melancholia,
-          drawing inspiration from both contemporary and vintage pop culture.
-          With a career that has seen numerous critically acclaimed albums, Lana
-          Del Rey has established herself as a unique and influential figure in
-          the music industry, earning a dedicated fan base and numerous
-          accolades.
+          Vixer is my personal chatbot that answers questions about me. I used TypeScript, JavaScript, and React.js to create the UI for him.
+          For the backend, I used Supabase to store my data and Gemini to generate responses to questions. I trained him so that he
+          will not answer any questions that are not related to me. 
+          The name Vixer comes from my other two childhood raccoon friends named Boxer and Buster. I used to play with them
+          when I was a kid and I wanted to give Vixer a name that reminds me of them.
         </p>
       );
     },
   },
   {
-    description: "Babbu Maan",
-    title: "Mitran Di Chhatri",
-    src: "",
+    description: "Social Media Application Framework",
+    title: "Camelot",
+    src: "/images/camelot.png",
     ctaText: "Visit",
-    ctaLink: "",
+    ctaLink: "https://github.com/rgchdx/FinalProject",
     content: () => {
       return (
         <p>
-          Babu Maan, a legendary Punjabi singer, is renowned for his soulful
-          voice and profound lyrics that resonate deeply with his audience. Born
-          in the village of Khant Maanpur in Punjab, India, he has become a
-          cultural icon in the Punjabi music industry. <br /> <br /> His songs
-          often reflect the struggles and triumphs of everyday life, capturing
-          the essence of Punjabi culture and traditions. With a career spanning
-          over two decades, Babu Maan has released numerous hit albums and
-          singles that have garnered him a massive fan following both in India
-          and abroad.
+          Camelot is a soclial media application to connect people who share an interest in outdoor activities such as 
+          hiking, biking, and climbing. The application is not live nor is not finalized but the framework is finished and 
+          I am planning to come back to it later on. I first started off with doing some usability test resaerch using Figma to see
+          what the most optimal UI was. Then I moved on to make it with a dear friend Julian at study abroad. We used Kotlin and Jetpack Compose
+          to create the UI of the application and Firebase to store the data along with Google Maps API to show the location of the posts. I am currently
+          planning to take this further and actually release the applicaiton in the future.
         </p>
       );
     },
   },
 
   {
-    description: "Metallica",
-    title: "For Whom The Bell Tolls",
-    src: "",
+    description: "Todo Application",
+    title: "RichList",
+    src: "/images/richlist.png",
     ctaText: "Visit",
-    ctaLink: "",
+    ctaLink: "https://github.com/rgchdx/RichList",
     content: () => {
       return (
         <p>
-          Metallica, an iconic American heavy metal band, is renowned for their
-          powerful sound and intense performances that resonate deeply with
-          their audience. Formed in Los Angeles, California, they have become a
-          cultural icon in the heavy metal music industry. <br /> <br /> Their
-          songs often reflect themes of aggression, social issues, and personal
-          struggles, capturing the essence of the heavy metal genre. With a
-          career spanning over four decades, Metallica has released numerous hit
-          albums and singles that have garnered them a massive fan following
-          both in the United States and abroad.
+            A basic todo list with a consistent database using Firebase with Kotlin and Jetpack Compose as the UI. 
+            I made this applicaiton during study abroad and was one of my first actual projects that I have done 
+            using Kotlin. I used this application to learn more about the language and how to use it in a real world.
+            Additionally this was the first time I used Firebase to store data and I learned a lot about how to use it. 
         </p>
       );
     },
   },
   {
-    description: "Lord Himesh",
-    title: "Aap Ka Suroor",
-    src: "",
-    ctaText: "Visit",
+    description: "Facial Recognition Application using OpenCV and Python",
+    title: "Facial recognition application",
+    src: "/images/alert.png",
+    ctaText: "-",
     ctaLink: "",
     content: () => {
       return (
         <p>
-          Himesh Reshammiya, a renowned Indian music composer, singer, and
-          actor, is celebrated for his distinctive voice and innovative
-          compositions. Born in Mumbai, India, he has become a prominent figure
-          in the Bollywood music industry. <br /> <br /> His songs often feature
-          a blend of contemporary and traditional Indian music, capturing the
-          essence of modern Bollywood soundtracks. With a career spanning over
-          two decades, Himesh Reshammiya has released numerous hit albums and
-          singles that have garnered him a massive fan following both in India
-          and abroad.
+          Currently in development
         </p>
       );
     },
