@@ -243,7 +243,7 @@ const cards = [
   {
     description: "Todo Application",
     title: "RichList",
-    src: "/images/richlist.png",
+    src: "/images/RichList.png",
     ctaText: "Visit",
     ctaLink: "https://github.com/rgchdx/RichList",
     content: () => {
