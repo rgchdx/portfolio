@@ -1,6 +1,5 @@
 "use client";
 import { cn } from "@/utils/cn";
-import Link from "next/link";
 
 export const BentoGrid = ({
   className,
@@ -25,13 +24,10 @@ export const BentoGridItem = ({
   className,
   title,
   description,
-  header,
-  id,
   img,
   imgClassName,
   titleClassName,
   spareImg,
-  href,
 }: {
   className?: string;
   title?: string | React.ReactNode;

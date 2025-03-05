@@ -1,6 +1,5 @@
 import React from "react";
 import { BentoGrid, BentoGridItem } from "./ui/BentoGrid";
-import Link from "next/link";
 
 export function ResumeContent() {
   return (

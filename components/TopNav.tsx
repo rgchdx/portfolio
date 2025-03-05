@@ -1,9 +1,5 @@
-import { px } from 'framer-motion'
 import React from 'react'
-import Projects from '../app/Projects/page'
 import Link from 'next/link'
-import AboutMe from '../app/AboutMe/page'
-import Chatbot from '../app/Chatbot/page'
 
 const TopNav = () => {
   return (

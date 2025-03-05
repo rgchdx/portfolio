@@ -3,7 +3,6 @@
 import React from 'react'
 import { LampContainer } from './ui/Lamp'
 import { motion } from "framer-motion";
-import { IconBrandFramer } from '@tabler/icons-react'
 
 
 const RESUME_URL = '/Richie_Gordon_Dix_Resume.pdf';
