@@ -1,7 +1,6 @@
 import Footer from '@/components/Footer'
 import Introtome from '@/components/Introtome'
 import TopNav from '@/components/TopNav'
-import { TracingBeam } from '@/components/ui/Tracing-Beam'
 import React from 'react'
 
 const AboutMe = () => {

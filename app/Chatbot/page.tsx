@@ -1,5 +1,4 @@
 import TopNav from '@/components/TopNav'
-import { TracingBeam } from '@/components/ui/Tracing-Beam'
 import Chatpage from '@/components/Chatpage'
 import React from 'react'
 

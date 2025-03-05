@@ -3,7 +3,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { supabase } from "@/utils/supabaseSetup";
-import { createClient } from "@supabase/supabase-js";
 
 
 const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || ""; 

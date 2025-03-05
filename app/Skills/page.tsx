@@ -1,7 +1,6 @@
 import Footer from '@/components/Footer'
 import SkillsPage from '@/components/SkillsPage'
 import TopNav from '@/components/TopNav'
-import { FocusCards } from '@/components/ui/Focus-Cards'
 import { TracingBeam } from '@/components/ui/Tracing-Beam'
 import React from 'react'
 
