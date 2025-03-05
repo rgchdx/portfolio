@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react'
 import { BackgroundLines } from './ui/Background-lines'
 import Image from 'next/image'
-import { ReactTyped, Typed } from 'react-typed';
 import {IconArrowLeft, IconArrowRight} from '@tabler/icons-react';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -37,7 +36,7 @@ const Hero = () => {
   ];
   
   const [activeIndex, setActiveIndex] = useState(0);
-  const [typed,setTyped] = useState<Typed | undefined>();
+  //const [typed,setTyped] = useState<Typed | undefined>();
   const [rotationValues, setRotationValues] = useState<number[]>([]);
 
   useEffect(() => {
@@ -121,11 +120,6 @@ const Hero = () => {
               <div>
                 <h2 className='font-bold text-2xl text-white'>My name is Richie Dix and I am...</h2>
                 <h2 className='font-bold text-2xl text-green-500'>{active.quote}</h2>
-                <ReactTyped 
-                  typedRef={setTyped}
-                  strings={[active.quote]}
-                  typeSpeed={40}
-                />
                 <div className='flex gap-4 pt-4'>
                   <button onClick={gotoPrev} className='h-6 w-6 rounded-full bg-green-500 flex items-center justify-center'>
                     <IconArrowLeft className='h-4 w-4 text-black-100'/>
