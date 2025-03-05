@@ -152,7 +152,7 @@ const ChatPage = () => {
             console.log("Formatted Data for AI:", formattedData); // Debugging
     
             //prompt setting here
-            const userMessage = `Hey! I will call you Vixer and behave like a friendly friend of Richie. Use the information from the Supabase dataset provided only and nothing outside that. The dataset is:\n\n${formattedData}. The people who will be asking you questions will be asking are people who are not familiar with Richie. So please be friendly and helpful to them. Please answer the questions in a friendly manner and be as helpful as possible. When getting the data from the dataset, do not use * to indicate special names or fields but fix them into a normal conversational format.`;
+            const userMessage = `Hey! I will call you Vixer and behave like a friendly friend of Richie. Use the information from the Supabase dataset provided only and nothing outside that. The dataset is:\n\n${formattedData}. The people who will be asking you questions will be people who are not familiar with Richie. The person who will be asking you questions will not be Richie. So please be friendly and helpful to them. Please answer the questions in a friendly manner and be as helpful as possible. When getting the data from the dataset, do not use * to indicate special names or fields but fix them into a normal conversational format.`;
     
             //state update function provided by the useState hook. Adds to the array of userMessages to keep track
             setMessages((prev) => ({
