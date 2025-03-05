@@ -22,6 +22,50 @@ type MessageState = {
     convos: Message[];
 }
 
+interface FoodData {
+    name: string;
+    level_of_liking: string;
+    food_from_where: string;
+    memo: string;
+}
+
+interface FriendsData {
+    name: string;
+    where_we_met: string;
+    memo: string;
+    friend_group: string;
+}
+
+interface GamesData {
+    years_played: string;
+    when_i_played: string;
+    memo: string;
+}
+
+interface GeneralData {
+    about: string;
+    memo: string;
+}
+
+interface HobbiesData {
+    name: string;
+    memo: string;
+}
+
+interface MusicData {
+    artist: string;
+    song: string;
+    genre: string;
+    concerts: string;
+    memo: string;
+}
+
+interface SportsData {
+    sports_name: string;
+    level_of_interest: string;
+    memo: string;
+}
+
 const ChatPage = () => {
     
     //state variables for the chat
@@ -38,7 +82,6 @@ const ChatPage = () => {
     //const supabase = createClient(SUPABASE_URL, SUPABASE_KEY); // Initialize supabase client
 
     // Initialization of the supabase client side
-    const [data,setData] = useState<any[]>([]);
 
     //console.log("supabase client initialized");
 
@@ -92,9 +135,9 @@ const ChatPage = () => {
                 }
     
                 // Format each dataset
-                const formatSection = (data: any[], title: string, fields: string[]) => 
-                    data?.map(item => `${title}: ${fields.map(field => `${field}: ${item[field]}`).join(", ")}`).join("\n") || "";
-    
+                const formatSection = <T,>(data: T[], title: string, fields: (keyof T)[]) => 
+                    data?.map(item => `${title}: ${fields.map(field => `${String(field)}: ${item[field]}`).join(", ")}`).join("\n") || "";
+
                 const formattedFood = formatSection(foodData, "Food", ["name", "level_of_liking", "food_from_where", "memo"]);
                 const formattedFriends = formatSection(friendsData, "Friend", ["name", "where_we_met","memo", "friend_group"]);
                 const formattedGames = formatSection(gamesData, "Game", ["years_played", "when_i_played", "memo"]);
@@ -267,7 +310,9 @@ const ChatPage = () => {
                     <div className="flex self-start my-4">
                         <div className="p-4 bg-green-300 text-white slef-start rounded-md ">
                             <div className="w-6 h-6 border-4 border-green-300 animate-spin border-dashed rouded-full">
-
+                                <div>
+                                    {error && <div className="text-red-500">{error}</div>}
+                                </div>
                             </div>
                         </div>
                     </div>
