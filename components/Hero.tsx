@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { BackgroundLines } from './ui/Background-lines'
 import Image from 'next/image'
 import { ReactTyped, Typed } from 'react-typed';
@@ -38,6 +38,12 @@ const Hero = () => {
   
   const [activeIndex, setActiveIndex] = useState(0);
   const [typed,setTyped] = useState<Typed | undefined>();
+  const [rotationValues, setRotationValues] = useState<number[]>([]);
+
+  useEffect(() => {
+    // Generate random rotation values only on the client side
+    setRotationValues(testimonials.map(() => Math.floor(Math.random() * 21) - 10));
+  }, []);
 
   const gotoNext = () => {
     // Increment index and wrap around
@@ -53,8 +59,8 @@ const Hero = () => {
   const active = testimonials[activeIndex];
 
   const isActive = (i:number) => i === testimonials.indexOf(active);
-
-  const randomRotate = () => Math.floor(Math.random() * 21) - 10;
+  
+  const randomRotate = (i: number) => rotationValues[i];
 
   /*
   const typedText = () => {
@@ -75,33 +81,33 @@ const Hero = () => {
                 <AnimatePresence>
                   {testimonials.map((testimonial ,i) => (
                     <motion.div 
-                      initial={{
-                        opacity: 0, 
-                        scale: 0.9, 
-                        z:-100, 
-                        rotate: randomRotate(), 
-                        y:0
-                      }} 
-                      animate={{
-                        opacity: isActive(i) ? 1 : 0.7,
-                        scale: isActive(i) ? 1 : 0.95,
-                        rotate: isActive(i) ? 0 : randomRotate(),
-                        zIndex: isActive(i) ? 999 : testimonials.length + 2 - i,
-                        y: isActive(i) ? [0,-80,0] : 0
-                      }}
-                      exit={{
-                        opacity: 0,
-                        scale: 0.9,
-                        rotate: randomRotate(),
-                        z:100
-                      }}
-                      transition={{
-                        duration:0.4,
-                        ease: "easeInOut"
-                      }}
-                      key={testimonial.name}
-                      className='absolute inset-0 origin-bottom'
-                    >
+                    initial={{
+                      opacity: 0, 
+                      scale: 0.9, 
+                      z: -100, 
+                      rotate: randomRotate(i), 
+                      y: 0
+                    }} 
+                    animate={{
+                      opacity: isActive(i) ? 1 : 0.7,
+                      scale: isActive(i) ? 1 : 0.95,
+                      rotate: isActive(i) ? 0 : randomRotate(i),
+                      zIndex: isActive(i) ? 999 : testimonials.length + 2 - i,
+                      y: isActive(i) ? [0, -80, 0] : 0
+                    }}
+                    exit={{
+                      opacity: 0,
+                      scale: 0.9,
+                      rotate: randomRotate(i),
+                      z: 100
+                    }}
+                    transition={{
+                      duration: 0.4,
+                      ease: "easeInOut"
+                    }}
+                    key={testimonial.name}
+                    className='absolute inset-0 origin-bottom'
+                  >
                       <Image
                         src={testimonial.src}
                         className='rounded-3xl h-full w-full'
