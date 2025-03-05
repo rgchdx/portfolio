@@ -42,13 +42,13 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
           <div key={index} className="flex flex-col items-start pt-10 md:pt-40 md:gap-10 w-full"> 
             <div className="sticky top-40 z-40 self-start max-w-xs lg:max-w-sm md:w-full">
               <div className="h-10 absolute left-3 md:left-3 w-10 rounded-full bg-green-500 flex items-center justify-center">
-                <div className="h-4 w-4 rounded-full bg-green-200 dark:bg-neutral-800 border border-green-300 dark:border-neutral-700 p-2" />
+                <div className="h-4 w-4 rounded-full bg-green-200 border border-green-300 p-2" />
               </div>
               <h3 className="hidden md:block text-xl md:pl-20 md:text-5xl font-bold text-white">
                 {item.title}
               </h3>
             </div>
-            <div className="w-full px-4 md:px-20">
+            <div className=" text-white w-full px-4 md:px-20">
               <h3 className="md:hidden block text-2xl mb-4 text-left font-bold text-white">
                 {item.title}
               </h3>
@@ -60,7 +60,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
           style={{
             height: height + "px",
           }}
-          className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-neutral-200 dark:via-neutral-700 to-transparent to-[99%]  [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)] "
+          className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-neutral-200 to-transparent to-[99%]  [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)] "
         >
           <motion.div
             style={{

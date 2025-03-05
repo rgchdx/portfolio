@@ -128,7 +128,7 @@ export function Introtome() {
     },
   ];
   return (
-    <div className="w-full">
+    <div className=" text-white w-full">
       <Timeline data={data} />
     </div>
   );
