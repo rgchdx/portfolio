@@ -10,12 +10,10 @@ const Footer = () => {
                     Brows other pages
                 </h2>
                 <ul>
-                    <li>
-                        <li><a href='' className='hover:underline text-gray-300 hover:text-green-500'>Home</a></li>
-                        <li><a href='' className='hover:underline text-gray-300 hover:text-green-500'>About me</a></li>
-                        <li><a href='' className='hover:underline text-gray-300 hover:text-green-500'>Projects</a></li>
-                        <li><a href='' className='hover:underline text-gray-300 hover:text-green-500'>Chat with me!</a></li>
-                    </li>
+                    <li><a href='' className='hover:underline text-gray-300 hover:text-green-500'>Home</a></li>
+                    <li><a href='' className='hover:underline text-gray-300 hover:text-green-500'>About me</a></li>
+                    <li><a href='' className='hover:underline text-gray-300 hover:text-green-500'>Projects</a></li>
+                    <li><a href='' className='hover:underline text-gray-300 hover:text-green-500'>Chat with me!</a></li>
                 </ul>
             </div>
             <div>
