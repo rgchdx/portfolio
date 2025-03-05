@@ -8,7 +8,7 @@ export function Introtome() {
       title: "My hobbies",
       content: (
         <div className="flex flex-col md:flex-row items-start gap-6">
-          <p className=" pt-10 text-neutral-800 dark:text-neutral-200 text-m md:text-l font-normal w-full md:w-80 text-center md:text-left leading-relaxed">
+          <p className=" pt-10 texxt-white text-m md:text-l font-normal w-full md:w-80 text-center md:text-left leading-relaxed">
             I used to play a variety of sports, including soccer, baseball, basketball, tennis etc... However, the sports that I enjoy the most are volleyball, skiing, water skiing, climbing, disc golf, and ultimate frisbee! I played volleyball for 7 years in Japan on my high school team and we used to go to Korea for international tournaments! I am currently on the Knox College Alley Rats and play ultimate frisbee!
           </p>
           <div className="grid grid-cols-2 gap-4 md:w-2/3">
@@ -48,7 +48,7 @@ export function Introtome() {
       title: "Music",
       content: (
         <div className="flex flex-col md:flex-row items-start gap-6">
-          <p className="pt-10 text-neutral-800 dark:text-neutral-200 text-m md:text-l font-normal w-full md:w-80 text-center md:text-left leading-relaxed">
+          <p className="pt-10 text-white text-m md:text-l font-normal w-full md:w-80 text-center md:text-left leading-relaxed">
             I love to play the guitar in my free time and I am currently learning how to play a new songs so that I can play and sing along with my firends! <br></br>
             I listen to a lot of indie music and my current favorite artists are the Magic City Hippies, the Glass Animals, and Arctic Monkeys! Ghost on the mend by the Magic City Hippies have a special place in my heart!
           </p>
@@ -89,7 +89,7 @@ export function Introtome() {
       title: "Food",
       content: (
         <div className="flex flex-col md:flex-row items-start gap-6">
-          <p className="pt-10 text-neutral-800 dark:text-neutral-200 text-m md:text-l font-normal w-full md:w-80 text-center md:text-left leading-relaxed">
+          <p className="pt-10 text-white text-m md:text-l font-normal w-full md:w-80 text-center md:text-left leading-relaxed">
             I love to cook! I used to work at two different restaurants in Japan and in the US! The first restaurant that I worked in was at Gunge Pizza in Sasayama Hyogo Japan. My boss was my dad's friend and I used to work in the kitchen, making pasta and salads and prepping for meals!
             The second restaurant that I worked at was the Les Cheneaux Culinary School in Hessel Michigan! I worked breakfast shifts where I used to make breakfast sandwiches with eggs, bacon, and our secret sauce! I managed the breakfast kitchen and I was in charge of working all the other employees! I also did meal prep for the dinner team as well!
           </p>
