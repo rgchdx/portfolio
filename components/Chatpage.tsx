@@ -22,50 +22,6 @@ type MessageState = {
     convos: Message[];
 }
 
-interface FoodData {
-    name: string;
-    level_of_liking: string;
-    food_from_where: string;
-    memo: string;
-}
-
-interface FriendsData {
-    name: string;
-    where_we_met: string;
-    memo: string;
-    friend_group: string;
-}
-
-interface GamesData {
-    years_played: string;
-    when_i_played: string;
-    memo: string;
-}
-
-interface GeneralData {
-    about: string;
-    memo: string;
-}
-
-interface HobbiesData {
-    name: string;
-    memo: string;
-}
-
-interface MusicData {
-    artist: string;
-    song: string;
-    genre: string;
-    concerts: string;
-    memo: string;
-}
-
-interface SportsData {
-    sports_name: string;
-    level_of_interest: string;
-    memo: string;
-}
-
 const ChatPage = () => {
     
     //state variables for the chat
