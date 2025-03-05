@@ -8,8 +8,12 @@ import { supabase } from "@/utils/supabaseSetup";
 const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || ""; 
 //since the API key is being passed and the genAI const requires a type of 
 //string and not string||undefined, we will take the string if there is a string and "" if undefined
-//const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-//const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+
+if (!SUPABASE_URL || !SUPABASE_KEY) {
+    throw new Error("Supabase URL and Key are required.");
+}
 
 //Creating message type here 
 type Message = {
